@@ -1,0 +1,464 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+
+\usepackage{enumitem}
+
+\setbeamertemplate{theorems}[numbered]
+
+\setenumerate[0]{label = \normalfont(\roman*)}
+
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\adm}{adm}
+\DeclareMathOperator{\Ind}{Ind}
+\DeclareMathOperator{\Vir}{Vir}
+\DeclareMathOperator{\vac}{|0\rangle}
+\DeclareMathOperator{\ch}{ch}
+
+\title[Modular inv.\ of char.\ of Virasoro modules]{Modular invariance of characters of Virasoro modules}
+\author[Salazar]{Diego Salazar\inst{1}}
+\institute[IMPA]{\inst{1} Instituto de Matemática Pura e Aplicada (IMPA)}
+\date[20 October 2023]{Seminário ``Representações das Álgebras e as Aplicações'' \\
+  %Universidade Estadual de Campinas (UNICAMP) \\
+  São Paulo - SP - Brasil, 20 October 2023}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+  \frametitle{$Q$-graded Lie algebras}
+  Let $\Gamma$ be an abelian group.
+  For a $\Gamma$-graded vector space $V = \bigoplus_{\alpha \in \Gamma}V^{\alpha}$, we set $\mathcal{P}(V) = \{\alpha \in \Gamma \mid V^{\alpha} \neq 0\}$.
+
+  A \emph{$\Gamma$-graded Lie algebra} is a Lie algebra $\mathfrak{g} = \bigoplus_{\mathfrak{g} \in \Gamma}\mathfrak{g}^{\alpha}$ such that
+  \begin{equation*}
+    [\mathfrak{g}^{\alpha}, \mathfrak{g}^{\beta}] \subseteq \mathfrak{g}^{\alpha + \beta} \quad \text{for $\alpha, \beta \in \Gamma$}.
+  \end{equation*}
+
+  Let $Q$ be a free abelian group of finite rank $r$, and let $\mathfrak{g}$ be a Lie algebra with a commutative subalgebra $\mathfrak{h}$.
+  We say a pair $(\mathfrak{g}, \mathfrak{h})$ is a \emph{$Q$-graded Lie algebra} if it satisfies the following:
+  \begin{enumerate}
+  \item $\mathfrak{g} = \bigoplus_{\alpha \in Q}\mathfrak{g}^{\alpha}$ is $Q$-graded, $\mathfrak{h} = \mathfrak{g}^0$, and $\mathcal{P}(\mathfrak{g})$ generates $Q$;
+  \item We have a homomorphism $\pi_Q: Q \to \mathfrak{h}^*, \alpha \mapsto \lambda_{\alpha}$ such  that
+    \begin{equation*}
+      [h, x] = \lambda_{\alpha}(h)x \quad \text{for $h \in \mathfrak{h}$ and $x \in \mathfrak{g}^{\alpha}$};
+    \end{equation*}
+  \item For $\alpha \in Q$, $\dim(\mathfrak{g}^{\alpha}) < \infty$;
+  \item There exists a basis $(\alpha_i)_{i = 1}^r$ of $Q$ such that for $\alpha \in Q$ with $\mathfrak{g}^{\alpha} \neq 0$,
+    \begin{equation*}
+      \text{$\alpha \in \sum_{i = 1}^r\mathbb{Z}_{\ge 0}\alpha_i$ or $\alpha \in \sum_{i = 1}^r\mathbb{Z}_{\le 0}\alpha_i$}.
+    \end{equation*}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  The condition (iv) implies that a $Q$-graded Lie algebra admits a \emph{triangular decomposition}.
+  If we set $Q^+ = \sum_{i = 1}^r\mathbb{Z}_{\ge 0}\alpha_i$ and
+  \begin{equation*}
+    \mathfrak{g}^{\pm} = \bigoplus_{\pm \alpha \in Q^+ \setminus \{0\}}\mathfrak{g}^{\alpha},
+  \end{equation*}
+  then we have $\mathfrak{g} = \mathfrak{g}^- \oplus \mathfrak{h} \oplus \mathfrak{g}^+$.
+  For later use, we set $\mathfrak{g}^{\ge} = \mathfrak{h} \oplus \mathfrak{g}^+$ and $\mathfrak{g}^{\le} = \mathfrak{g}^- \oplus \mathfrak{h}$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Virasoro algebra}
+  The \emph{Virasoro Lie algebra}, denoted by $\Vir$, is the Lie algebra given by:
+  \begin{align*}
+    \Vir &= \bigoplus_{n \in \mathbb{Z}}\mathbb{C}L_n \oplus \mathbb{C}C, \\
+    [L_m, L_n] &= (m - n)L_{m + n} + \delta_{m, -n}\frac{m^3 - m}{12}C \quad \text{for $m, n \in \mathbb{Z}$}, \\
+    [\Vir, C] &= 0.
+  \end{align*}
+
+  We set $Q = \mathbb{Z}$, $\mathfrak{h} = \mathbb{C}L_0 \oplus \mathbb{C}C$ and
+  \begin{align*}
+    \pi_Q: Q &\to \mathfrak{h}^*, \\
+    \pi_Q(n) &= (L_0 \mapsto -n, C \mapsto 0) \quad \text{for $n \in \mathbb{Z}$}.
+  \end{align*}
+  Then $(\Vir, \mathfrak{h})$ is readily seen to be a $\mathbb{Z}$-graded Lie algebra.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Affine Lie algebras}
+  Let $\bar{\mathfrak{g}}$ be a simple finite dimensional Lie algebra over $\mathbb{C}$.
+  Let $\bar{\mathfrak{h}}$ be a Cartan subalgebra of $\bar{\mathfrak{g}}$, and let $(\bullet, \bullet)$ be a nondegenerate invariant bilinear form on $\bar{\mathfrak{g}}$.
+  We set:
+  \begin{align*}
+    \mathfrak{g} &= \bar{\mathfrak{g}} \otimes \mathbb{C}[t, t^{-1}] \oplus \mathbb{C}K \oplus \mathbb{C}d, \\
+    [xt^m, yt^n] &= [x, y]t^{m + n} + m\delta_{m, -n}(x, y)K \quad \text{for $x, y \in \mathfrak{g}$ and $m, n \in \mathbb{Z}$},  \\
+    [K, \mathfrak{g}] &= 0, \\
+    [d, xt^m] &= mxt^m \quad \text{for $x \in \mathfrak{g}$ and $m \in \mathbb{Z}$}.
+  \end{align*}
+  With this bracket, $\mathfrak{g}$ becomes a Lie algebra called \emph{affine Lie algebra of $\bar{\mathfrak{g}}$} or \emph{affinization of $\bar{\mathfrak{g}}$}.
+
+  Let $\bar{\Delta}$ be the set of roots of $\bar{\mathfrak{g}}$ with respect to $\bar{\mathfrak{h}}$, so we have a root space decomposition $\bar{\mathfrak{g}} = \bar{\mathfrak{h}} \oplus \bigoplus_{\beta \in \bar{\Delta}}\mathfrak{g}^{\beta}$.
+  We fix a set of simple roots $(\alpha_i)_{i = 1}^r$ of $\bar{\mathfrak{g}}$ and denote the highest root by $\theta$.
+\end{frame}
+
+\begin{frame}
+  We set
+  \begin{equation*}
+    \mathfrak{h} = \bar{\mathfrak{h}} \oplus \mathbb{C}K \oplus \mathbb{C}d
+  \end{equation*}
+  and regard $\bar{\Delta} \subseteq \mathfrak{h}^*$ via $\beta(ht^0) = \beta(h)$, $\beta(K) = \beta(d) = 0$ for $\beta \in \bar{\Delta}$.
+  Let $\delta \in \mathfrak{h}^*$ such that $\delta(\bar{\mathfrak{h}}) = 0$, $\delta(K) = 0$ and $\delta(d) = 1$.
+  We set
+  \begin{equation*}
+    Q = \mathbb{Z}\bar{\Delta} \oplus \mathbb{Z}\delta \subseteq \mathfrak{h}^*.
+  \end{equation*}
+  For $\alpha \in Q$, we set
+  \begin{equation*}
+    \mathfrak{g}^{\alpha} =
+    \begin{cases}
+      \bar{\mathfrak{g}}^{\beta}t^n &\text{if $\alpha = \beta + n\delta$ for some $\beta \in \bar{\Delta}$ and $n \in \mathbb{Z}$}; \\
+      \bar{\mathfrak{h}}t^n &\text{if $\alpha = n\delta$ for some $n \in \mathbb{Z} \setminus \{0\}$}; \\
+      \mathfrak{h} &\text{if $\alpha = 0$}; \\
+      0 &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+  Then $\mathfrak{g} = \bigoplus_{\alpha \in Q}\mathfrak{g}^{\alpha}$ is the root space decomposition with respect $\mathfrak{h}$, and $\Pi = \{\alpha_1, \dots, \alpha_r\} \cup \{\alpha_0\}$, where $\alpha_0 = \delta - \theta$, is a $\mathbb{Z}$-basis of $Q$ satisfying (iv).
+  Hence, $(\mathfrak{g}, \mathfrak{h})$ is a $Q$-graded Lie algebra.
+\end{frame}
+
+\begin{frame}
+  We can also introduce a $Q$-graded Lie algebra on
+  \begin{equation*}
+    \mathfrak{g}' = [\mathfrak{g}, \mathfrak{g}] = \bar{\mathfrak{g}} \otimes \mathbb{C}[t, t^{-1}] \oplus \mathbb{C}K.
+  \end{equation*}
+  We set $\mathfrak{h}' = \mathfrak{h} \cap \mathfrak{g}'$.
+  Then $(\mathfrak{g}', \mathfrak{h}')$ is a $Q$-graded Lie algebra with $Q$-grading
+  \begin{equation*}
+    (\mathfrak{g}')^{\alpha} =
+    \begin{cases}
+      \mathfrak{g}^{\alpha} &\text{if $\alpha \neq 0$}; \\
+      \mathfrak{h}' &\text{if $\alpha = 0$}.
+    \end{cases}
+  \end{equation*}
+  In this case, the map $\pi_Q: Q \to (\mathfrak{h}')^*$ is not injective.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Categories of $(\mathfrak{g}, \mathfrak{h})$-modules}
+  Let $\Gamma$ be an abelian group, and let $\mathfrak{g} = \bigoplus_{\alpha \in \Gamma}\mathfrak{g}^{\alpha}$ be a $\Gamma$-graded Lie algebra.
+  A $\mathfrak{g}$-module $M = \bigoplus_{\alpha \in \Gamma}M^{\alpha}$ is \emph{$\Gamma$-graded} if
+  \begin{equation*}
+    \mathfrak{g}^{\alpha}M^{\beta} \subseteq M^{\alpha + \beta} \quad \text{for $\alpha, \beta \in \Gamma$}.
+  \end{equation*}
+
+  To consider modules over a $Q$-graded Lie algebra $(\mathfrak{g}, \mathfrak{h})$ even in the case where $\pi_Q$ is not injective, we introduce categories which are generalizations of $\mathcal{C}_{\mathfrak{g}, \mathfrak{h}}$ in \cite{MR661694} and $\mathcal{O}$ in \cite{MR407097}.
+
+  We fix a homomorphism of free abelian groups
+  \begin{equation*}
+    \iota: \Ima(\pi_Q) \to Q
+  \end{equation*}
+  such that $\pi_Q\circ\iota = \Id$.
+  Thus,
+  \begin{equation*}
+    Q = \Ima(\iota) \oplus \Ker(\pi_Q).
+  \end{equation*}
+  We set $G = Q/\Ima(\iota)$.
+\end{frame}
+
+\begin{frame}
+  Let $\mathbf{p}: Q \to G$ be the canonical projection.
+  Then, we have the following isomorphism
+  \begin{equation}
+    \label{eq:1}
+    \begin{split}
+      Q &\xrightarrow{\sim} G \oplus \Ima(\pi_Q), \\
+      \alpha &\mapsto (\mathbf{p}(\alpha), \pi_Q(\alpha)).
+    \end{split}
+  \end{equation}
+
+  An $\mathfrak{h}$-module $M$ is \emph{$\mathfrak{h}$-diagonalizable} if
+  \begin{equation*}
+    M = \bigoplus_{\lambda \in \mathfrak{h}^*}M_{\lambda},
+  \end{equation*}
+  where $M_{\lambda} = \{v \in M \mid \text{for $h \in \mathfrak{h}$, $hv = \lambda(h)v$}\}$.
+
+  An $\mathfrak{h}$-diagonalizable module $M$ is called \emph{$\mathfrak{h}$-semisimple} if
+  \begin{equation*}
+    \dim(M_{\lambda}) < \infty \quad \text{for $\lambda \in \mathfrak{h}^*$}.
+  \end{equation*}
+  A $(\mathfrak{g}, \mathfrak{h})$-module is an $\mathfrak{h}$-diagonalizable $\mathfrak{g}$-module.
+
+  We regard $\mathfrak{g}$ as $G \times \mathfrak{h}^*$-graded Lie algebra via the isomorphism \eqref{eq:1}, i.e., $\mathfrak{g} = \bigoplus_{(\gamma, \lambda) \in G \times \mathfrak{h}^*}\mathfrak{g}^{\gamma}_{\lambda}$ and
+  \begin{equation*}
+    \mathfrak{g}^{\gamma}_{\lambda} =
+    \begin{cases}
+      \mathfrak{g}^{\alpha} &\text{if exists $\alpha \in Q$ such that $\gamma = \mathbf{p}(\alpha)$ and $\lambda = \pi_Q(\alpha)$}; \\
+      0 &\text{otherwise}.
+    \end{cases}
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  For a $G \times \mathfrak{h}^*$-graded $(\mathfrak{g}, \mathfrak{h})$-module $M = \bigoplus_{(\alpha, \lambda) \in G \times \mathfrak{h}^*}M^{\alpha}_{\lambda}$, we set $M^{\alpha} = \bigoplus_{\lambda \in \mathfrak{h}^*}M^{\alpha}_{\lambda}$ for $\alpha \in G$ and regard $M = \bigoplus_{\alpha \in G}M^{\alpha}$ as a $G$-graded module.
+
+  The category $\mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}$ is the category whose objects are $G \times \mathfrak{h}^*$-graded $(\mathfrak{g}, \mathfrak{h})$-modules and for $M, N \in \mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}$, $\Hom_{\mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}}(M, N) = \Hom^G_{\mathfrak{g}}(M, N)$.
+
+
+  The category $\mathcal{C}^{\iota}_{\adm}$ is the full subcategory of $\mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}$ whose objects consists of $M \in \mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}$ such that $M^{\alpha}$ is $\mathfrak{h}$-semisimple for $\alpha \in G$.
+  We call an object of $\mathcal{C}^{\iota}_{\adm}$ an \emph{admissible $(\mathfrak{g}, \mathfrak{h})$-module}.
+
+  We now define the category $\mathcal{O}^{\iota}$.
+  For $(\alpha, \lambda) \in G \times \mathfrak{h}^*$, we set
+  \begin{align*}
+    D(\alpha, \lambda) &= \{(\beta, \mu) \in G \times \mathfrak{h}^* \mid \\
+                       &\quad \text{there is $\gamma \in Q^+$ such that $\beta = \alpha - \mathbf{p}(\gamma)$ and $\mu = \lambda - \pi_Q(\gamma)$}\}.
+  \end{align*}
+
+  The category $\mathcal{O}^{\iota}$ is the full subcategory of $\mathcal{C}^{\iota}_{\adm}$ whose objects consist of $M \in \mathcal{C}^{\iota}_{\adm}$ with the following property: There exist finitely many $(\beta_i, \lambda_i) \in G \times \mathfrak{h}^*$ such that
+  \begin{equation*}
+    \mathcal{P}(M) \subseteq \bigcup D(\beta_i, \lambda_i).
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Highest weight modules}
+  Let $(\mathfrak{g}, \mathfrak{h})$ be a $Q$-graded Lie algebra.
+  Let $M \in \mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}$, and let $(\alpha, \lambda) \in G \times \mathfrak{h}^*$.
+  $M$ is called a \emph{highest weight module} with \emph{highest weight} $(\alpha, \lambda)$ if there is a nonzero vector $v \in M^{\alpha}_{\lambda}$ such that:
+  \begin{enumerate}
+  \item $xv = 0$ for $x \in \mathfrak{g}^+$;
+  \item $U(\mathfrak{g}^-)v = M$.
+  \end{enumerate}
+  The vector $v$ is called a \emph{highest weight vector} of $M$ and is unique up to multiplication by a nonzero scalar.
+
+  For $(\alpha, \lambda) \in G \times \mathfrak{h}^*$, we let $\mathfrak{g}^{\ge}$ act on $\mathbb{C}$ as follows:
+  \begin{align*}
+    h1 &= \lambda(h)1 \quad \text{for $h \in \mathfrak{h}$}, \\
+    x1 &= 0 \quad \text{for $x \in \mathfrak{g}^+$}.
+  \end{align*}
+
+  The \emph{Verma module} with highest weight $(\alpha, \lambda) \in G \times \mathfrak{h}^*$ is defined by
+  \begin{equation*}
+    M(\alpha, \lambda) = \Ind^{\mathfrak{g}}_{\mathfrak{g}^{\ge}}(\mathbb{C}) = U(\mathfrak{g}) \otimes_{U(\mathfrak{g}^{\ge})} \mathbb{C},
+  \end{equation*}
+  and a highest weight vector is $1\otimes1$.
+\end{frame}
+
+\begin{frame}
+  $M(\alpha, \lambda)$ has a unique maximal proper graded $G \times \mathfrak{h}^*$-graded submodule $J(\alpha, \lambda) \in \mathcal{O}^{\iota}$.
+  The quotient
+  \begin{equation*}
+    L(\alpha, \lambda) = M(\alpha, \lambda)/J(\alpha, \lambda)
+  \end{equation*}
+  is the \emph{irreducible highest weight module} with highest weight $(\alpha, \lambda)$.
+
+  Moreover, $\{L(\alpha, \lambda) \mid (\alpha, \lambda) \in G \times \mathfrak{h}^*\}$ exhaust the simple objects in the category $\mathcal{O}^{\iota}$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lowest weight modules}
+  We say $M \in \mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}$ is a \emph{lowest weight module} with \emph{lowest weight} $(\alpha, \lambda) \in G \times \mathfrak{h}^*$ if there is a nonzero vector $v \in M^{\alpha}_{\lambda}$ such that:
+  \begin{enumerate}
+  \item $xv = 0$ for $x \in \mathfrak{g}^-$;
+  \item $U(\mathfrak{g}^+)v = M$.
+  \end{enumerate}
+  The vector $v$ is called a \emph{lowest weight vector} of $M$ and is unique up to multiplication by a nonzero scalar.
+
+  For $(\alpha, \lambda) \in G \times \mathfrak{h}^*$, we let $\mathfrak{g}^{\le}$ act on $\mathbb{C}$ as follows:
+  \begin{align*}
+    h1 &= \lambda(h)1 \quad \text{for $h \in \mathfrak{h}$}, \\
+    x1 &= 0 \quad \text{for $x \in \mathfrak{g}^-$}.
+  \end{align*}
+
+  The \emph{lowest weight Verma module} with lowest weight $(\alpha, \lambda) \in G \times \mathfrak{h}^*$ is defined by
+  \begin{equation*}
+    M^-(\alpha, \lambda) = \Ind^{\mathfrak{g}}_{\mathfrak{g}^{\le}}(\mathbb{C}) = U(\mathfrak{g}) \otimes_{U(\mathfrak{g}^{\le})} \mathbb{C},
+  \end{equation*}
+  and a lowest weight vector is $1\otimes1$.
+\end{frame}
+
+\begin{frame}
+  $M^-(\alpha, \lambda)$ has a unique maximal proper graded $G \times \mathfrak{h}^*$-graded submodule $J^-(\alpha, \lambda) \in \mathcal{O}^{\iota}$.
+  The quotient
+  \begin{equation*}
+    L^-(\alpha, \lambda) = M^-(\alpha, \lambda)/J^-(\alpha, \lambda)
+  \end{equation*}
+  is the \emph{irreducible lowest weight module} with lowest weight $(\alpha, \lambda)$.
+
+  $M^-(\alpha, \lambda)$ and $L^-(\alpha, \lambda)$ are in general not objects of the category $\mathcal{O}^{\iota}$, but are objects of $\mathcal{C}^{\iota}_{(\mathfrak{g}, \mathfrak{h})}$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{$\mathcal{C}_{\adm}$ for the Virasoro Lie algebra $\Vir$}
+  For $a, b \in \mathbb{C}$, let $V_{a, b} = \bigoplus_{n \in \mathbb{Z}}\mathbb{C}v_n$ be the $\mathbb{Z}$-graded $\Vir$-module defined by:
+  \begin{align*}
+    L_sv_n &= (as + b - n)v_{n + s} \quad \text{for $n, s \in \mathbb{Z}$}, \\
+    Cv_n &= 0 \quad \text{for $n \in \mathbb{Z}$}.
+  \end{align*}
+  By definition, $V_{a, b} \in \mathcal{C}_{\adm}$.
+
+  \begin{theorem}[{\cite[\S2]{iohara_representation_2011}}]
+    \label{thr:1}
+    \begin{enumerate}
+    \item If $a \neq 0, -1$ or $b \notin \mathbb{Z}$, then $V_{a, b}$ is an irreducible $\Vir$-module;
+    \item If $a = 0$ and $b \in \mathbb{Z}$, then there exists a submodule $V$ of $V_{a, b}$ such that $V \cong \mathbb{C}$, and $V_{a, b}/V$ is irreducible;
+    \item If $a \neq -1$ and $b \in \mathbb{Z}$, then there exists a submodule $V$ of $V_{a, b}$ such that $V_{a, b}/V \cong \mathbb{C}$, and $V$ is irreducible.
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  The irreducible modules $V_{a, b}$, $V_{a, b}/V$ and $V$ given in the previous theorem are called the \emph{intermediate series} of the Virasoro Lie algebra.
+
+  We can now state the main classification theorem.
+  \begin{theorem}[{\cite[\S2]{iohara_representation_2011}}]
+    \label{thr:2}
+    The intermediate series, the irreducible highest weight modules and the irreducible lowest weight modules exhaust the \emph{Harish-Chandra modules} over the Virasoro Lie algebra, i.e., simple objects of the category $\mathcal{C}_{\adm}$.
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Characters of Virasoro modules}
+  We denote by $M(c, h)$ and $L(c, h)$ the Verma modules and irreducible highest weight representation with respect to the Virasoro Lie algebra $\Vir$.
+
+  It turns out that $M(c, 0)/U(\Vir)\{L_{-1}\vac\} = \Vir^c$ and $L(c, 0) = \Vir_c$ can be given the structure of a vertex algebra.
+  In fact, $\Vir_c$ is $\Vir^c$ quotiented by its maximal ideal.
+
+  If $V$ is a highest weight representation of $\Vir$, then $L_0$ is diagonalizable, and it is natural to define the \emph{character of $V$} as
+  \begin{equation*}
+    \ch_V(q) = \sum_{\Delta \in \mathbb{C}}\dim(V_{\Delta})q^{\Delta},
+  \end{equation*}
+  where $V_{\Delta} = \Ker(L_0 - \Delta\Id_V)$.
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[{\cite{MR49225}, \cite{andrews_singular_2022}}]
+    We have the following identities:
+    \footnotesize
+    \begin{align*}
+      \ch_{M(c, h)}(q) &= \frac{q^h}{\prod_{k = 1}^{\infty}(1 - q^k)}, \\
+      \ch_{L(1/2, 0)}(q) &= \prod_{k = 1}^{\infty}\frac{(1 + q^{8k - 5})(1 + q^{8k - 3})(1 - q^{8k})}{1 - q^{2k}} \\
+                       &= \sum_{k_1, k_2 \ge 0}\frac{q^{4k_1^2 + 3k_1k_2 + k_2^2}}{(q)_{k_1}(q)_{k_2}}(1 - q^{4k_1 + 2k_2 + 1}), \\
+      \ch_{L(1/2, 1/2)}(q) &= q^{1/2}\sum_{k \ge 1}\frac{q^{2k^2 - 2k}}{(q)_{2k - 1}} = q^{1/2}\sum_{k_1, k_2 \in \mathbb{N}}\frac{q^{4k_1^2 + 3k_1k_2 + k_2^2 + 2k_1}}{(q)_{k_1}(q)_{k_2}}(1 - q^{8k_1 + 4k_2 + 6}), \\
+      \ch_{L(1/2, 1/16)}(q) &= q^{1/16}\sum_{k \in \mathbb{N}}\frac{q^{\frac{k(k + 1)}{2}}}{(q)_k} = q^{1/16}\sum_{k_1, k_2 \in \mathbb{N}}\frac{q^{4k_1^2 + 3k_1k_2 + k_2^2}}{(q)_{k_1}(q)_{k_2}}(q^{k_1 + k_2} + q^{4k_1 + k_2 + 1}).
+    \end{align*}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  For $\tau \in \mathbb{H}$ and $c, h \in \mathbb{C}$, we set $q = e^{2\pi i\tau}$ and define \emph{the normalized character of $L(c, h)$} by
+  \begin{equation*}
+    \chi_{L(c, h)}(\tau) = q^{-c/24}\ch(q) \in \mathbb{C}.
+  \end{equation*}
+
+  We express $\chi_{L(c, h)}(\tau)$ by using the \emph{Dedekind $\eta$-function} $\eta(\tau)$
+  \begin{equation*}
+    \eta(\tau) = q^{1/24}\prod_{n \in \mathbb{Z}_+}(1 - q^n),
+  \end{equation*}
+  and the \emph{classical theta function $\Theta_{n, m}(\tau)$} for $m \in \mathbb{Z}_+$ and $n \in \mathbb{Z}/2m\mathbb{Z}$
+  \begin{equation*}
+    \Theta_{n, m}(\tau) = \sum_{k \in \mathbb{Z}}q^{m(k + \frac{n}{2m})^2}.
+  \end{equation*}
+
+  For $p, q \ge 2$ relatively prime integers, we set
+  \begin{equation*}
+    c = c_{p, q} = 13 - 6\left(\frac{p}{q} + \frac{q}{p}\right)
+  \end{equation*}
+  and for $\alpha, \beta \in \mathbb{Z}$ and $t \in \mathbb{C} \setminus \{0\}$, we set
+  \begin{equation*}
+    h_{\alpha, \beta}(t) = \frac{1}{4}(\alpha^2 - 1)t - \frac{1}{2}(\alpha\beta - 1) + \frac{1}{4}(\beta^2-1)t^{-1}.
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[{\cite[Corollary 6.1]{iohara_representation_2011}}]
+    \label{thr:3}
+    We suppose the highest weight $(c, h)$ is of the form $c = c_{p, q}$ for some $p, q \ge 2$ relatively prime integers and $h = h_{r, s}(\frac{q}{p})$ for some $r, s \in \mathbb{Z}_+$ such that $r < p$ and $s < q$.
+    Then
+    \begin{equation}
+      \label{eq:2}
+      \chi_{r, s}(\tau) = \chi_{L(c, h)}(\tau) = (\Theta_{rq - sp, pq}(\tau) - \Theta_{rq + sp, pq}(\tau))\eta(\tau)^{-1}.
+    \end{equation}
+  \end{theorem}
+
+  \begin{corollary}
+    \label{crl:1}
+    Taking $(p, q) = (2, 3)$ and $(r, s) = 1$, \eqref{eq:2} becomes the formula known as \emph{Euler's pentagonal number theorem}
+    \begin{equation*}
+      \prod_{n = 1}^\infty(1 - q^n) = \sum_{m \in \mathbb{Z}}(-1)^mq^{\frac{1}{2}m(3m - 1)}.
+    \end{equation*}
+  \end{corollary}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The modular property}
+  The modular group $SL_2(\mathbb{Z})$ acts on the upper half-plane $\mathbb{H}$ by
+  \begin{equation*}
+    \begin{pmatrix}
+      a & b \\ c & d
+    \end{pmatrix}
+    \cdot \tau = \frac{a\tau + b}{c\tau + d}.
+  \end{equation*}
+  Moreover, if we set
+  \begin{equation*}
+    S =
+    \begin{pmatrix}
+      0 & -1 \\ 1 & 0
+    \end{pmatrix},
+    T =
+    \begin{pmatrix}
+      1 & 1 \\ 0 & 1
+    \end{pmatrix},
+  \end{equation*}
+  then $S$ and $T$ generate the group $SL_2(\mathbb{Z})$ and
+  \begin{equation*}
+    T\tau = \tau + 1, S\tau = -\frac{1}{\tau}.
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[{\cite[Proposition 6.3]{iohara_representation_2011}}]
+    \label{thr:4}
+    Let us take integers $p, q, r, s$ as above.
+    Then:
+    \begin{align}
+      \label{eq:3}
+      \chi_{r, s}(\tau + 1) &= e^{\{\frac{(rq - sp)^2}{2pq} - \frac{1}{12}\}\pi i}\chi_{r, s}(\tau), \\
+      \label{eq:4}
+      \chi_{r, s}\left(-\frac{1}{\tau}\right) &= \sum_{(r', s') \in K_{p, q}}S_{(r, s), (r', s')}\chi_{r', s'}(\tau),
+    \end{align}
+    where:
+    \begin{align*}
+      S_{(r, s), (r', s')} &= \sqrt{\frac{8}{pq}}(-1)^{(r + s)(r' + s')}\sin\left(\frac{\pi rr'}{p}(p - q)\right)\sin\left(\frac{\pi ss'}{q}(p - q)\right), \\
+      K_{p, q} &= \{(r, s) \in \mathbb{Z}^2 \mid 0 < r < p, 0 < s < q, rq + sp \le pq\}.
+    \end{align*}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  It turns out this phenomenon can be generalized (although now is less precise).
+  \begin{theorem}[{\cite{abe_rationality_2003}, \cite{miyamoto_modular_2004}, \cite{zhu_modular_1996}}]
+    \label{thr:5}
+    Let $V$ be an $\mathbb{N}$-graded conformal lisse vertex algebra.
+    Then:
+    \begin{enumerate}
+    \item Any simple $V$-module is a positive energy representation, and the number of isomorphic classes of simple $V$-modules is finite.
+    \item Let $M_1, \dots, M_s$ be representatives of these classes.
+      Then $\chi_{M_i}(\tau)$ converges for $\tau \in \mathbb{H}$ and $i = 1, \dots, s$, and the vector space generated by $SL_2(\mathbb{Z})\{\chi_{M_i}(\tau)\}_{i = 1}^s$ is finite dimensional;
+    \end{enumerate}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{References}
+  \footnotesize
+  \setbeamertemplate{bibliography item}{\insertbiblabel}
+  \bibliographystyle{alpha}
+  \bibliography{modular-invariance-of-characters-of-virasoro-modules-slides.bib}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    \Huge
+    Thanks! \\
+  \end{center}
+\end{frame}
+
+\end{document}
